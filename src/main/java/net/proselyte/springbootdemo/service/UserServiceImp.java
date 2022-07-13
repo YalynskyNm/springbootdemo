@@ -3,7 +3,6 @@ package net.proselyte.springbootdemo.service;
 
 import net.proselyte.springbootdemo.model.User;
 import net.proselyte.springbootdemo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +12,11 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserServiceImp(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     @Override
@@ -34,7 +36,6 @@ public class UserServiceImp implements UserService {
         userRepository.saveAndFlush(user);
     }
 
-    @Transactional
     @Override
     public List<User> listUsers() {
         return userRepository.findAll();
